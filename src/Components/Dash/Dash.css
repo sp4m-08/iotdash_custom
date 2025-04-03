@@ -1,0 +1,120 @@
+.dash-container {
+    display: grid;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7%;
+    font-family: Arial, sans-serif;
+}
+
+.dash-components {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    /* Allows items to wrap on smaller screens */
+    padding: 20px;
+    animation:slideUpFadeIn 2.5s;
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 100;
+    }
+}
+
+.dash-item {
+     padding: 20px;
+    min-height: 350px; /* Increased height to accommodate charts */
+    width: 350px;
+    border: none;
+    border-radius: 17px;
+    box-shadow: 0 0 10px rgb(188, 14, 139);
+    display: flex;
+    flex-direction: column;
+    /* Stack content vertically */
+    align-items: center;
+    justify-content: space-between;
+    /* Distribute space evenly */
+    background: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dash-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(188, 14, 139, 0.6);
+}
+
+.dash-item p:first-child {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.sensor-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #e74c3c;
+}
+
+.dash-item img {
+    height: 60px;
+    width: auto;
+    min-width: 40px;
+    object-fit: contain;
+    margin-top: 15px;
+}
+
+.chart-container {
+    width: 100%;
+    height: 180px;
+    margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dash-components {
+        gap: 15px;
+    }
+
+    .dash-item {
+        min-height: 320px;
+        min-width: 250px;
+        padding: 15px;
+    }
+
+    .sensor-value {
+        font-size: 1.5rem;
+    }
+    .chart-container {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dash-container {
+        margin-top: 15%;
+    }
+
+    .dash-components {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dash-item {
+        width: 90%;
+        min-height: 300px;
+    }
+    .chart-container {
+        height: 130px;
+    }
+}

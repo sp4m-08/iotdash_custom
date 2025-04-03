@@ -1,0 +1,56 @@
+body{
+    margin:0;
+}
+.header{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:sticky;
+    top:0;
+    left:0;
+    right:0;
+    padding:15px 30px;
+    width: 100vw;
+    height: 75px;
+    background: #000000;
+    
+    min-width: 100%;
+    box-sizing: border-box;
+    z-index: 9999;
+    margin-top: 0;
+    box-shadow: 0 0 10px rgb(241, 26, 219);
+    border-bottom-style: solid;
+    border-bottom: #fff;
+    border-bottom-width: 10px;
+    animation:FadeIn 2.5s;
+
+
+}
+
+@keyframes FadeIn {
+    from {
+        
+        opacity: 0;
+    }
+
+    to {
+        
+        opacity: 100;
+    }
+}
+
+.nav-links {
+    display: flex;
+    gap: 54px;
+    align-items: center;
+}
+
+.nav-link {
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+}
