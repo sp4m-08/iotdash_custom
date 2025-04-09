@@ -1,8 +1,8 @@
 import React from 'react'
 import GlobalStyle from './GlobalStyle';
-import Auth from './Components/Auth/Auth'
-import Navbar from './Navbar';
-import Dash from './Components/Dash/Dash'
+import Auth from './App/Auth/Auth'
+import Navbar from './Components/Navbar';
+import Dash from './App/Dash/Dash'
 import {BrowserRouter as Router,Routes,Route,useLocation} from 'react-router-dom'
 
 function App() {
