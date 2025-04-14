@@ -45,7 +45,7 @@ function Dash() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/data');
+        const response = await fetch('http://iotdash-backend.vercel.app/api/data');
         const data = await response.json();
         setSensorData(data);
         
@@ -54,7 +54,7 @@ function Dash() {
           const now = new Date();
           const timeStr = now.toLocaleTimeString();
           
-          // Keep only the last 20 readings for better performance
+          
           const newHistory = {
             temp: [...prev.temp.slice(-9), data.temp !== '--' ? data.temp : null],
             humidity: [...prev.humidity.slice(-9), data.humidity !== '--' ? data.humidity : null],
