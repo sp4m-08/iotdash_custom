@@ -56,12 +56,12 @@ function Dash() {
           
           // Keep only the last 20 readings for better performance
           const newHistory = {
-            temp: [...prev.temp.slice(-19), data.temp !== '--' ? data.temp : null],
-            humidity: [...prev.humidity.slice(-19), data.humidity !== '--' ? data.humidity : null],
-            heart: [...prev.heart.slice(-19), data.heart !== '--' ? data.heart : null],
-            spo2: [...prev.spo2.slice(-19), data.spo2 !== '--' ? data.spo2 : null],
-            bodytemp: [...prev.bodytemp.slice(-19), data.bodytemp !== '--' ? data.bodytemp : null],
-            timestamps: [...prev.timestamps.slice(-19), timeStr]
+            temp: [...prev.temp.slice(-9), data.temp !== '--' ? data.temp : null],
+            humidity: [...prev.humidity.slice(-9), data.humidity !== '--' ? data.humidity : null],
+            heart: [...prev.heart.slice(-9), data.heart !== '--' ? data.heart : null],
+            spo2: [...prev.spo2.slice(-9), data.spo2 !== '--' ? data.spo2 : null],
+            bodytemp: [...prev.bodytemp.slice(-9), data.bodytemp !== '--' ? data.bodytemp : null],
+            timestamps: [...prev.timestamps.slice(-9), timeStr]
           };
           return newHistory;
         });
