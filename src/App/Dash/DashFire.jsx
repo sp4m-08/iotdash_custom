@@ -12,6 +12,9 @@ import {
   Legend,
 } from 'chart.js';
 
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onValue } from 'firebase/database';
+
 // Register ChartJS components
 ChartJS.register(
   CategoryScale,
@@ -23,7 +26,23 @@ ChartJS.register(
   Legend
 );
 
-function Dash() {
+// 🔐 Firebase config (from Firebase Console)
+const firebaseConfig = {
+  apiKey: "AIzaSyBgmeTbKwQIqLcfoKqdw6q8AoSRWyKBy0U",
+  authDomain: "health-98bc9.firebaseapp.com",
+  databaseURL: "https://health-98bc9-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "health-98bc9",
+  storageBucket: "health-98bc9.firebasestorage.app",
+  messagingSenderId: "26199772449",
+  appId: "1:26199772449:web:c64420b9cc4bca85c58260",
+  measurementId: "G-2P0PLY2WT1"
+};
+
+// 🧠 Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+function DashFire() {
   const [sensorData, setSensorData] = useState({
     temp: '--',
     humidity: '--',
@@ -32,7 +51,6 @@ function Dash() {
     bodytemp: '--'
   });
 
-  // State to store historical data for charts
   const [history, setHistory] = useState({
     temp: [],
     humidity: [],
@@ -43,60 +61,47 @@ function Dash() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/data');
-        const data = await response.json();
-        setSensorData(data);
-        
-        // Update history
-        setHistory(prev => {
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString();
-          
-          
-          const newHistory = {
-            temp: [...prev.temp.slice(-9), data.temp !== '--' ? data.temp : null],
-            humidity: [...prev.humidity.slice(-9), data.humidity !== '--' ? data.humidity : null],
-            heart: [...prev.heart.slice(-9), data.heart !== '--' ? data.heart : null],
-            spo2: [...prev.spo2.slice(-9), data.spo2 !== '--' ? data.spo2 : null],
-            bodytemp: [...prev.bodytemp.slice(-9), data.bodytemp !== '--' ? data.bodytemp : null],
-            timestamps: [...prev.timestamps.slice(-9), timeStr]
-          };
-          return newHistory;
-        });
-      } catch (err) {
-        console.error('Error fetching sensor data:', err);
+    const healthRef = ref(database, '/');
+    
+    const unsubscribe = onValue(healthRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (data) {
+        const newSensorData = {
+          temp: data.environment?.temperature ?? '--',
+          humidity: data.environment?.humidity ?? '--',
+          heart: data.health?.heart_rate ?? '--',
+          spo2: data.health?.spo2 ?? '--',
+          bodytemp: data.health?.body_temperature ?? '--'
+        };
+
+        setSensorData(newSensorData);
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString();
+
+        setHistory(prev => ({
+          temp: [...prev.temp.slice(-9), newSensorData.temp],
+          humidity: [...prev.humidity.slice(-9), newSensorData.humidity],
+          heart: [...prev.heart.slice(-9), newSensorData.heart],
+          spo2: [...prev.spo2.slice(-9), newSensorData.spo2],
+          bodytemp: [...prev.bodytemp.slice(-9), newSensorData.bodytemp],
+          timestamps: [...prev.timestamps.slice(-9), timeStr]
+        }));
       }
-    };
+    });
 
-    // Fetch data immediately and then every second
-    fetchData();
-    const interval = setInterval(fetchData, 1000);
-
-    return () => clearInterval(interval);
+    return () => unsubscribe(); // cleanup listener
   }, []);
 
-  // Chart configuration
   const createChartOptions = (title) => ({
     responsive: true,
     plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: title,
-      },
+      legend: { position: 'top' },
+      title: { display: true, text: title },
     },
-    scales: {
-      y: {
-        beginAtZero: false
-      }
-    },
-    animation: {
-      duration: 0 // Disable animation for better real-time performance
-    }
+    scales: { y: { beginAtZero: false } },
+    animation: { duration: 0 }
   });
 
   const createChartData = (label, data, color) => ({
@@ -106,7 +111,7 @@ function Dash() {
         label: label,
         data: data,
         borderColor: color,
-        backgroundColor: color + '40', // Add opacity
+        backgroundColor: color + '40',
         tension: 0.1,
         pointRadius: 2
       }
@@ -116,11 +121,11 @@ function Dash() {
   return (
     <div className='dash-container'>
       <div className='dash-components'>
-        {/* Temperature Card */}
+        {/* Repeat this card structure for each sensor */}
         <div className='dash-item'>
           <p>Temperature</p>
           <p className="sensor-value">{sensorData.temp}°C</p>
-          <img src="temp.png" alt="Body Temperature" />
+          <img src="temp.png" alt="Temperature" />
           <div className="chart-container">
             <Line 
               options={createChartOptions('Temperature History')}
@@ -129,11 +134,10 @@ function Dash() {
           </div>
         </div>
 
-        {/* Humidity Card */}
         <div className='dash-item'>
           <p>Humidity</p>
           <p className="sensor-value">{sensorData.humidity}%</p>
-          <img src="humidity.png" alt="Body Temperature" />
+          <img src="humidity.png" alt="Humidity" />
           <div className="chart-container">
             <Line 
               options={createChartOptions('Humidity History')}
@@ -142,11 +146,10 @@ function Dash() {
           </div>
         </div>
 
-        {/* Heart Rate Card */}
         <div className='dash-item'>
           <p>Heart Rate</p>
           <p className="sensor-value">{sensorData.heart} BPM</p>
-          <img src="heart.png" alt="Body Temperature" />
+          <img src="heart.png" alt="Heart" />
           <div className="chart-container">
             <Line 
               options={createChartOptions('Heart Rate History')}
@@ -155,11 +158,10 @@ function Dash() {
           </div>
         </div>
 
-        {/* SpO2 Card */}
         <div className='dash-item'>
           <p>SpO₂</p>
           <p className="sensor-value">{sensorData.spo2}%</p>
-          <img src="spo2.png" alt="Body Temperature" />
+          <img src="spo2.png" alt="SpO2" />
           <div className="chart-container">
             <Line 
               options={createChartOptions('Blood Oxygen History')}
@@ -168,11 +170,10 @@ function Dash() {
           </div>
         </div>
 
-        {/* Body Temperature Card */}
         <div className='dash-item'>
           <p>Body Temperature</p>
           <p className="sensor-value">{sensorData.bodytemp}°C</p>
-          <img src="body-temp.png" alt="Body Temperature" />
+          <img src="body-temp.png" alt="Body Temp" />
           <div className="chart-container">
             <Line 
               options={createChartOptions('Body Temp History')}
@@ -185,4 +186,4 @@ function Dash() {
   );
 }
 
-export default Dash;
+export default DashFire;
