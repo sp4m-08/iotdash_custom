@@ -1,12 +1,44 @@
-# React + Vite
+# Custom IoT Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![IoT Dashboard](path/to/your/image.png) <!-- Replace with the path to your dashboard image -->
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The **Custom IoT Dashboard** is a user-friendly interface designed to monitor and control IoT devices in real-time. This dashboard provides a comprehensive view of device statuses, analytics, and control options, making it easier for users to manage their IoT ecosystem.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Real-time Monitoring**: View the status of all connected IoT devices in real-time.
+- **Device Control**: Control devices directly from the dashboard with a simple click.
+- **Data Visualization**: Graphical representation of data collected from devices.
+- **Alerts and Notifications**: Receive alerts for device malfunctions or important updates.
+
+## Technologies Used
+
+- **Frontend**: ReactJs, CSS
+- **Backend**: Node.js, ExpressJS
+- **Database**: Firebase
+- **IoT Protocols**: HTTP, WebSocket
+
+## Installation
+
+### Prerequisites
+
+- Node.js (version)
+- npm (version)
+
+### Steps
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd iotdashboard
+   npm install
+
+   ```
+
+2. **Run**:
+   ```bash
+   npm run dev
+   ```
