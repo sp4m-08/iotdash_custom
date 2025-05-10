@@ -1,4 +1,4 @@
-# Custom IoT Dashboard## Overview
+## Healix - IoT Health Dashboard
 
 **Healix - IoT Health Dashboard** is a responsive web interface built to monitor vital health metrics collected from IoT-based sensors in real time. It provides a sleek, modern view of live data such as body temperature, humidity, heart rate, SpO₂ levels, and general ambient temperature. Each parameter includes historical graph data for trend analysis.
 
