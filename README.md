@@ -1,6 +1,6 @@
 # Custom IoT Dashboard
 
-![IoT Dashboard](path/to/your/image.png) <!-- Replace with the path to your dashboard image -->
+![IoT Dashboard]![alt text](image.png)
 
 ## Overview
 
